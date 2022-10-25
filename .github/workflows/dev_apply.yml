@@ -15,7 +15,7 @@ env:
 
 jobs:
   dev_apply:
-    name: terraform_workflow
+    name: dev_apply
     runs-on: ubuntu-latest
     steps:
       - name: checkout
