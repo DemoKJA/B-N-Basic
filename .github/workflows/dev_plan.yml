@@ -14,7 +14,7 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.clientSecret }}
 
 jobs:
-  terraform_workflow:
+  dev_plan:
     name: terraform_workflow
     runs-on: ubuntu-latest
     steps:
