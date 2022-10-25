@@ -1,7 +1,7 @@
 name: Dev Plan
 
 on:
-  push:
+  pull_request:
     branches:
       - dev
   workflow_dispatch:
@@ -14,8 +14,8 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.clientSecret }}
 
 jobs:
-  terraform_workflow:
-    name: terraform_workflow
+  dev_plan:
+    name: dev_plan
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -23,12 +23,12 @@ jobs:
       - name: setup
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 0.14.2
+          terraform_version: 1.3.3
       - name: init
         run: |
           terraform init \
             -backend-config=key=dev.terraform.tfstate \
-            -backend-config=container_name=tfstate \
+            -backend-config=container_name=tfstatebn \
             -backend-config=resource_group_name=kja-rg \
             -backend-config=storage_account_name=kjastorage \
             -input=false

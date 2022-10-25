@@ -1,13 +1,7 @@
-prefix  = "kjadev"
-adf_git = true
-org = "kja"
+adf_git     = true
 environment = "dev"
 
-tags = {  
-    "application-name" = "digital-bi" 
-    "cost-center"      = "0555944"  
-    "environment"      = "nonprod"  
-    "lob"              = "TSA TECH"  
-    "owner"            = "haritha.reddy-at-kroger.com"  
-    "spm-id"           = "7004"
- }
+tags = {
+  "application-name" = "data-ai"
+  "environment"      = "dev"
+}

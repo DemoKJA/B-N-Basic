@@ -5,10 +5,8 @@ variable "location" {
   default = "eastus 2"
 }
 
-variable prefix {}
-variable adf_git {}
-variable org {}
-variable environment {}
+variable "adf_git" {}
+variable "environment" {}
 
 variable "tags" {
   type = map(string)
