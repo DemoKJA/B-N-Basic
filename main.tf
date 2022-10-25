@@ -67,9 +67,9 @@ resource "azurerm_data_factory" "adf" {
     content {
       account_name    = "demokja"
       git_url         = "https://github.com"
-      branch_name     = "colab"
-      repository_name = "Datafactory-Standalone"
-      root_folder     = "/ADF-ARM"
+      branch_name     = "main"
+      repository_name = "Datafactory-BN"
+      root_folder     = "/"
     }
 
   }
