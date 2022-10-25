@@ -1,7 +1,7 @@
 name: Dev Plan
 
 on:
-  push:
+  pull_request:
     branches:
       - dev
   workflow_dispatch:
@@ -14,7 +14,7 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.clientSecret }}
 
 jobs:
-  terraform_workflow:
+  dev_plan:
     name: terraform_workflow
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +28,7 @@ jobs:
         run: |
           terraform init \
             -backend-config=key=dev.terraform.tfstate \
-            -backend-config=container_name=tfstate_bn \
+            -backend-config=container_name=tfstatebn \
             -backend-config=resource_group_name=kja-rg \
             -backend-config=storage_account_name=kjastorage \
             -input=false

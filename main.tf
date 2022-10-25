@@ -7,23 +7,22 @@
 
 # Create a resource groups
 resource "azurerm_resource_group" "rg" {
-  name     = "rg-data-ai-eastus2-${var.prefix}"
+  name     = "rg-data-ai-eastus2-${var.environment}"
   location = var.location
 }
 
 
 # Create Archive Storage account 
 resource "azurerm_storage_account" "storageacc1" {
-  name                              = "${var.org}dlsdgtlbi${var.environment}001"
+  name                              = "stdataaiuser${var.environment}"
   resource_group_name               = azurerm_resource_group.rg.name
   location                          = var.location
   account_tier                      = "Standard"
-  account_replication_type          = "LRS"
+  account_replication_type          = "GRS"
   account_kind                      = "StorageV2"
   is_hns_enabled                    = "true" # for datalake gen2
   enable_https_traffic_only         = "true"
-  min_tls_version                   = "TLS1_0"
-  allow_blob_public_access          = "false"
+  min_tls_version                   = "TLS1_0"  
   infrastructure_encryption_enabled = false
   tags                              = var.tags
 
@@ -44,7 +43,7 @@ resource "azurerm_storage_account" "storageacc1" {
 
 # Create Azure Datafactory
 resource "azurerm_data_factory" "adf" {
-  name                = "adf-${var.prefix}"
+  name                = "adf-${var.environment}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   identity {
@@ -74,5 +73,4 @@ resource "azurerm_data_factory" "adf" {
     }
 
   }
-
 }
