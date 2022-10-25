@@ -1,6 +1,9 @@
 name: Prod Plan
 
-on: 
+on:
+  push:
+    branches:
+      - prod
   workflow_dispatch:
 
 env:
