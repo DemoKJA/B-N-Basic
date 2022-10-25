@@ -7,14 +7,14 @@
 
 # Create a resource groups
 resource "azurerm_resource_group" "rg" {
-  name     = "rg-data-ai-eastus2-${var.prefix}"
+  name     = "rg-data-ai-eastus2-${var.environment}"
   location = var.location
 }
 
 
 # Create Archive Storage account 
 resource "azurerm_storage_account" "storageacc1" {
-  name                              = "${var.org}dlsdgtlbi${var.environment}001"
+  name                              = "st-data-ai-user-${var.environment}"
   resource_group_name               = azurerm_resource_group.rg.name
   location                          = var.location
   account_tier                      = "Standard"
@@ -74,5 +74,4 @@ resource "azurerm_data_factory" "adf" {
     }
 
   }
-
 }
