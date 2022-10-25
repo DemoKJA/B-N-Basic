@@ -28,10 +28,10 @@ resource "azurerm_storage_account" "storageacc1" {
 
   blob_properties {
     delete_retention_policy {
-      days = 14
+      days = 7
     }
     container_delete_retention_policy {
-      days = 14
+      days = 7
     }
   }
 
