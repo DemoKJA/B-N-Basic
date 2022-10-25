@@ -1,0 +1,160 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_logic_kjdemo_name": {
+            "defaultValue": "logic-kjatest",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_logic_kjdemo_name')]",
+            "location": "eastus2",
+            "identity": {
+                "principalId": "",
+                "tenantId": "",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "schema": {
+                                    "properties": {
+                                        "body": {
+                                            "type": "string"
+                                        },
+                                        "callBackUri": {
+                                            "type": "string"
+                                        },
+                                        "partition": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Initialize_processingFinished_variable": {
+                            "runAfter": {
+                                "Initialize_upscalingFinished_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "processingFinished",
+                                        "type": "boolean",
+                                        "value": "@false"
+                                    }
+                                ]
+                            }
+                        },
+                        "Initialize_processingWasSuccessful_variable": {
+                            "runAfter": {
+                                "Initialize_processingFinished_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "processingWasSuccessful",
+                                        "type": "boolean",
+                                        "value": "@false"
+                                    }
+                                ]
+                            }
+                        },
+                        "Initialize_upscalingFinished_variable": {
+                            "runAfter": {},
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "resourceName",
+                                        "type": "boolean",
+                                        "value": "@false"
+                                    }
+                                ]
+                            }
+                        },
+                        "POST_Refresh": {
+                            "runAfter": {
+                                "Initialize_processingWasSuccessful_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Http",
+                            "inputs": {
+                                "authentication": {
+                                    "audience": "https://*.asazure.windows.net",
+                                    "type": "ManagedServiceIdentity"
+                                },
+                                "body": {
+                                    "CommitMode": "transactional",
+                                    "MaxParallelism": 10,
+                                    "Objects": [
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Apr 2020",
+                                            "table": "mvp Basket"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Jun 2020",
+                                            "table": "mvp Basket"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Jul 2020",
+                                            "table": "mvp Basket"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Aug 2020",
+                                            "table": "mvp Basket"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Sep 2020",
+                                            "table": "mvp Basket"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Nov 2020",
+                                            "table": "mvp Basket"
+                                        }
+                                    ],
+                                    "RetryCount": 3,
+                                    "Type": "Full"
+                                },
+                                "method": "POST",
+                                "uri": "https://aspaaseastus2.asazure.windows.net/servers/tsaasdgtlbistage001/models/MVP/refreshes"
+                            },
+                            "operationOptions": "DisableAsyncPattern"
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {}
+            }
+        }
+    ]
+}
