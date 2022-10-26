@@ -5,3 +5,8 @@ tags = {
   "application-name" = "data-ai"
   "environment"      = "prod"
 }
+
+ClientContainerNames = [
+  "columbus",
+  "newyork",
+]
