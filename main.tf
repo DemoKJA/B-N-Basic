@@ -55,7 +55,7 @@ resource "azurerm_storage_container" "storageacc_user_client_containers" {
 }
 
 resource "azurerm_storage_blob" "example" {
-  name                   = "RawVideoFiles"
+  name                   = "RawVideoFiles/"
   storage_account_name   = azurerm_storage_account.storageacc_user.name
   storage_container_name = azurerm_storage_container.storageacc_user_client_containers.name
   type                   = "Block"
