@@ -22,7 +22,7 @@ resource "azurerm_storage_account" "storageacc1" {
   account_kind                      = "StorageV2"
   is_hns_enabled                    = "true" # for datalake gen2
   enable_https_traffic_only         = "true"
-  min_tls_version                   = "TLS1_0"  
+  min_tls_version                   = "TLS1_0"
   infrastructure_encryption_enabled = false
   tags                              = var.tags
 
@@ -73,4 +73,14 @@ resource "azurerm_data_factory" "adf" {
     }
 
   }
+}
+
+
+# role assignents
+
+# adding ADF contributor access to user facing storage account
+resource "azurerm_role_assignment" "storageacc1_contributor" {
+  scope                = azurerm_storage_account.storageacc1.id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_data_factory.adf.object_id
 }
