@@ -46,6 +46,10 @@ resource "azurerm_storage_container" "storageacc_user_client_containers" {
   name                  = "testmain"
   storage_account_name  = azurerm_storage_account.storageacc_user.name
   container_access_type = "private"
+
+   lifecycle {
+    prevent_destroy = true
+  }
 }
 
 
