@@ -13,7 +13,7 @@ resource "azurerm_resource_group" "rg" {
 
 
 # Create user facing Storage account 
-resource "azurerm_storage_account" "storageacc1" {
+resource "azurerm_storage_account" "storageacc_user" {
   name                              = "stdataaiuser${var.environment}"
   resource_group_name               = azurerm_resource_group.rg.name
   location                          = var.location
@@ -41,9 +41,17 @@ resource "azurerm_storage_account" "storageacc1" {
 
 }
 
+# Create containers and main raw file:
+resource "azurerm_storage_container" "storageacc_user_client_containers" {
+  name                  = "testmain"
+  storage_account_name  = azurerm_storage_account.storageacc_user.name
+  container_access_type = "private"
+}
+
+
 
 # Create archive Storage account 
-resource "azurerm_storage_account" "storageacc2" {
+resource "azurerm_storage_account" "storageacc_archive" {
   name                              = "stdataaiarchive${var.environment}"
   resource_group_name               = azurerm_resource_group.rg.name
   location                          = var.location
@@ -109,29 +117,29 @@ resource "azurerm_data_factory" "adf" {
 # role assignents
 
 # adding ADF contributor access to user facing storage account
-resource "azurerm_role_assignment" "adf_storageacc1_contributor" {
-  scope                = azurerm_storage_account.storageacc1.id
+resource "azurerm_role_assignment" "adf_storageacc_user_contributor" {
+  scope                = azurerm_storage_account.storageacc_user.id
   role_definition_name = "Contributor"
   principal_id         = azurerm_data_factory.adf.identity.0.principal_id
 }
 
 # adding ADF Storage Blob Data Contributor access to user facing storage account
-resource "azurerm_role_assignment" "adf_storageacc1_blob_data_contr" {
-  scope                = azurerm_storage_account.storageacc1.id
+resource "azurerm_role_assignment" "adf_storageacc_user_blob_data_contr" {
+  scope                = azurerm_storage_account.storageacc_user.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_data_factory.adf.identity.0.principal_id
 }
 
 # adding ADF contributor access to archive storage account
-resource "azurerm_role_assignment" "adf_storageacc2_contributor" {
-  scope                = azurerm_storage_account.storageacc2.id
+resource "azurerm_role_assignment" "adf_storageacc_archive_contributor" {
+  scope                = azurerm_storage_account.storageacc_archive.id
   role_definition_name = "Contributor"
   principal_id         = azurerm_data_factory.adf.identity.0.principal_id
 }
 
 # adding ADF Storage Blob Data Contributor access to archive storage account
-resource "azurerm_role_assignment" "adf_storageacc2_blob_data_contr" {
-  scope                = azurerm_storage_account.storageacc2.id
+resource "azurerm_role_assignment" "adf_storageacc_archive_blob_data_contr" {
+  scope                = azurerm_storage_account.storageacc_archive.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_data_factory.adf.identity.0.principal_id
 }

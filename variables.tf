@@ -11,3 +11,7 @@ variable "environment" {}
 variable "tags" {
   type = map(string)
 }
+
+variable "ClientContainerName" {
+  type = list(string)
+}
