@@ -49,10 +49,6 @@ resource "azurerm_storage_container" "storageacc_user_client_containers" {
   container_access_type = "private"
 
   depends_on = [azurerm_storage_account.storageacc_user]
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "azurerm_storage_blob" "raw_video_files_folder" {
