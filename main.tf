@@ -56,9 +56,10 @@ resource "azurerm_storage_container" "storageacc_user_client_containers" {
 }
 
 resource "azurerm_storage_blob" "raw_video_files_folder" {
+  for_each               = var.ClientContainerNames
   name                   = "RawVideoFiles/Please place raw video files here"
   storage_account_name   = azurerm_storage_account.storageacc_user.name
-  storage_container_name = azurerm_storage_container.storageacc_user_client_containers.name[each.key]
+  storage_container_name = each.value
   type                   = "Block"
 
   depends_on = [azurerm_storage_container.storageacc_user_client_containers]
