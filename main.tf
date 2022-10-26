@@ -43,7 +43,8 @@ resource "azurerm_storage_account" "storageacc_user" {
 
 # Create containers and main raw file:
 resource "azurerm_storage_container" "storageacc_user_client_containers" {
-  name                  = "testmain"
+  for_each              = var.ClientContainerNames
+  name                  = each.value
   storage_account_name  = azurerm_storage_account.storageacc_user.name
   container_access_type = "private"
 
@@ -54,7 +55,7 @@ resource "azurerm_storage_container" "storageacc_user_client_containers" {
   }
 }
 
-resource "azurerm_storage_blob" "example" {
+resource "azurerm_storage_blob" "raw_video_files_folder" {
   name                   = "RawVideoFiles/Please place raw video files here"
   storage_account_name   = azurerm_storage_account.storageacc_user.name
   storage_container_name = azurerm_storage_container.storageacc_user_client_containers.name

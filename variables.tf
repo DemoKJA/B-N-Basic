@@ -12,6 +12,6 @@ variable "tags" {
   type = map(string)
 }
 
-variable "ClientContainerName" {
+variable "ClientContainerNames" {
   type = list(string)
 }
