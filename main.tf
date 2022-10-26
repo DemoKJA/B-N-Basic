@@ -47,9 +47,19 @@ resource "azurerm_storage_container" "storageacc_user_client_containers" {
   storage_account_name  = azurerm_storage_account.storageacc_user.name
   container_access_type = "private"
 
+  depends_on = [azurerm_storage_share.storageacc_user]
+
   lifecycle {
     prevent_destroy = true
   }
+}
+
+resource "azurerm_storage_blob" "example" {
+  name                   = "RawVideoFiles"
+  storage_account_name   = azurerm_storage_account.storageacc_user.name
+  storage_container_name = azurerm_storage_container.storageacc_user_client_containers.name
+  type                   = "Block"
+
 }
 
 
