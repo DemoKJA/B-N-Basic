@@ -79,8 +79,8 @@ resource "azurerm_data_factory" "adf" {
 # role assignents
 
 # adding ADF contributor access to user facing storage account
-resource "azurerm_role_assignment" "storageacc1_contributor" {
+resource "azurerm_role_assignment" "adf_storageacc1_contributor" {
   scope                = azurerm_storage_account.storageacc1.id
   role_definition_name = "Contributor"
-  principal_id         = azurerm_data_factory.adf.id
+  principal_id         = azurerm_data_factory.adf.identity.0.principal_id
 }
