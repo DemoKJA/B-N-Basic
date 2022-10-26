@@ -61,6 +61,7 @@ resource "azurerm_storage_blob" "raw_video_files_folder" {
   storage_container_name = azurerm_storage_container.storageacc_user_client_containers.name
   type                   = "Block"
 
+  depends_on = [azurerm_storage_container.storageacc_user_client_containers]
 }
 
 
