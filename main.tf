@@ -84,3 +84,10 @@ resource "azurerm_role_assignment" "adf_storageacc1_contributor" {
   role_definition_name = "Contributor"
   principal_id         = azurerm_data_factory.adf.identity.0.principal_id
 }
+
+# adding ADF contributor access to user facing storage account
+resource "azurerm_role_assignment" "adf_storageacc1_blob_data_contr" {
+  scope                = azurerm_storage_account.storageacc1.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_data_factory.adf.identity.0.principal_id
+}
