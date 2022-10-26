@@ -47,7 +47,7 @@ resource "azurerm_storage_container" "storageacc_user_client_containers" {
   storage_account_name  = azurerm_storage_account.storageacc_user.name
   container_access_type = "private"
 
-  depends_on = [azurerm_storage_share.storageacc_user]
+  depends_on = [azurerm_storage_account.storageacc_user]
 
   lifecycle {
     prevent_destroy = true
