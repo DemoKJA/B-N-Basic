@@ -6,7 +6,7 @@ tags = {
   "environment"      = "dev"
 }
 
-ClientContainerName = [
+ClientContainerNames = [
   "columbus",
-  "nework",
+  "newyork",
 ]
