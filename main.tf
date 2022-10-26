@@ -82,5 +82,5 @@ resource "azurerm_data_factory" "adf" {
 resource "azurerm_role_assignment" "storageacc1_contributor" {
   scope                = azurerm_storage_account.storageacc1.id
   role_definition_name = "Contributor"
-  principal_id         = azurerm_data_factory.adf.identity
+  principal_id         = azurerm_data_factory.adf.identity.principal_id
 }
