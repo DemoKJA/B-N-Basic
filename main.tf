@@ -43,7 +43,7 @@ resource "azurerm_storage_account" "storageacc_user" {
 
 # Create containers and main raw file:
 resource "azurerm_storage_container" "storageacc_user_client_containers" {
-  for_each              = var.ClientContainerNames
+  for_each              = toset(var.ClientContainerNames)
   name                  = each.value
   storage_account_name  = azurerm_storage_account.storageacc_user.name
   container_access_type = "private"
@@ -56,7 +56,7 @@ resource "azurerm_storage_container" "storageacc_user_client_containers" {
 }
 
 resource "azurerm_storage_blob" "raw_video_files_folder" {
-  for_each               = var.ClientContainerNames
+  for_each               = toset(var.ClientContainerNames)
   name                   = "RawVideoFiles/Please place raw video files here"
   storage_account_name   = azurerm_storage_account.storageacc_user.name
   storage_container_name = each.value
